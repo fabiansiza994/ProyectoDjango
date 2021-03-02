@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css">
+</head>
+<body>
+    <header>
+        <div id="logotipo">
+            <!-- logo -->
+            <img src="{% static 'img/logo.png' %}">
+            <h1>Proyecto</h1>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Inicio</a></li>
+            {% if user.username %}
+                <li>
+                    <a href="{% url 'list-articles' %}">Categorias</a>
+                    <ul>
+                        {% for categoria in categorias %}
+                            <li><a href="{% url 'category' categoria.0 %}">{{categoria.1}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                    {% for page in pages %}
+                        <li>
+                            <a href="{% url 'page' page.2 %}">{{page.1}}</a>
+                        </li>
+                    {% endfor %}
+                    <li><a href="{% url 'logout' %}">Cerrar sesion</a></li>
+            {% else %}
+                <li><a href="{% url 'register' %}">Registro</a></li>
+                <li><a href="{% url 'login' %}">login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <div class="barra">
+        <span class="esquina-izquierda"></span>
+        <span class="relleno-barra"></span>
+        <span class="esquina-derecha"></span>
+    </div>
+
+    <div id="content">
+        <div class="box">
+ 
+            {% block content %}
+
+            {% endblock %}
+           
+        </div>
+    </div>
+      
+    <footer>
+        Master en python &copy; FMSP - {% now "d/m/Y h:m:s" %}
+    </footer>
+</body>
+</html>
